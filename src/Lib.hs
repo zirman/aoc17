@@ -1,8 +1,6 @@
-module Lib
-    ( day1
-    , day1p2
-    , day2
-    ) where
+module Lib where
+
+import Data.List
 
 -- day1 [1,1,2,2] == 1
 -- day1 [1,1,1,1] == 4
@@ -23,6 +21,12 @@ day1p2 xs = sum (fmap (\(x, y) -> if x == y then x else 0) (zip xs (drop (div (l
 -- day2 :: Num a => [[a]] -> a
 day2 :: Num a => Ord a => [[a]] -> a
 day2 xss = sum (fmap (\xs -> maximum xs - minimum xs) xss)
+
+day2p2 :: Num a => Ord a => [[a]] -> a
+day2p2 xss = sum (fmap (maximum . fmap evenlyDiv . pairs) xss) where
+    pairs xs = [(x,y) | (x:ys) <- tails xs, y <- ys]
+    evenlyDiv (x, y) | x >= y = if mod x y == 0 then div x y else 0
+    evenlyDiv (x, y) | y > x = if mod y x == 0 then div y x else 0
 
 -- day3 1 = 0
 -- day3 n = f 1 where
